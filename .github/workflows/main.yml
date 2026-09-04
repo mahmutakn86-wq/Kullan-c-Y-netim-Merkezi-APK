@@ -1,4 +1,4 @@
-name: Build and Release Android APK
+name: Build Android APK
 
 on:
   push:
@@ -9,46 +9,49 @@ permissions:
   contents: write
 
 jobs:
-  build-apk:
+  build-android-apk:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: 'npm'
+          node-version: 22
 
-      - name: Set up Java JDK
+      - name: Setup Java JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Install Project Dependencies
+        run: npm install --no-audit --no-fund
 
-      - name: Install Node Dependencies
-        run: npm ci || npm install
-
-      - name: Build Web Application
+      - name: Build Web Assets
         run: npm run build
 
-      - name: Install Bubblewrap CLI (TWA Android APK Builder)
-        run: npm install -g @bubblewrap/cli
-
-      - name: Build Android APK from Web App
+      - name: Install Capacitor for Android
         run: |
-          mkdir -p android-output
-          echo "Building AKINCI Cloud Android APK Package..."
+          npm install @capacitor/core @capacitor/cli @capacitor/android
 
-      - name: Upload APK Artifact
+      - name: Initialize Capacitor Configuration
+        run: |
+          npx cap init "AKINCI Cloud" "com.akinci.cloud.admin" --web-dir "dist" || true
+          npx cap add android || true
+          npx cap sync android
+
+      - name: Build Android Debug APK with Gradle
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK to GitHub Artifacts (Download Link)
         uses: actions/upload-artifact@v4
         with:
-          name: AKINCI-Cloud-Admin-App
-          path: |
-            dist/
-            public/
+          name: AKINCI-Cloud-Admin-Android-APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 30

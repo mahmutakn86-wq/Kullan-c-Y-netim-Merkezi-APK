@@ -53,6 +53,16 @@ service cloud.firestore {
       // Hukuki delil niteliği gereği imzalanan sözleşmeler sonradan değiştirilemez veya silinemez
       allow update, delete: if false;
     }
+
+    // 4. Arşivlenmiş Sözleşmeler (Silinen veya Arşive Kaldırılan Kayıtlar)
+    match /archived_agreements/{archivedId} {
+      allow read, write: if isValidId(archivedId);
+    }
+
+    // 5. Güvenli Yönetici Oturum Tokenları (30 Günlük Beni Hatırla)
+    match /admin_tokens/{tokenId} {
+      allow read, write: if isValidId(tokenId);
+    }
   }
 }
 

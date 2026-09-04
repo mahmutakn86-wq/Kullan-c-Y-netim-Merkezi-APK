@@ -83,6 +83,28 @@
         "lawReference": { "type": "string" }
       },
       "required": ["licenseKey", "signerName", "signedAt", "hwid"]
+    },
+    "archived_agreements": {
+      "title": "Archived Agreement Logs",
+      "description": "Storage for archived or removed copyright agreements",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "licenseKey": { "type": "string" },
+        "customerName": { "type": "string" },
+        "archivedAt": { "type": "string" }
+      }
+    },
+    "admin_tokens": {
+      "title": "Admin Persistent Session Tokens",
+      "description": "Secure tokens for 30-day remembered admin sessions",
+      "type": "object",
+      "properties": {
+        "token": { "type": "string" },
+        "username": { "type": "string" },
+        "email": { "type": "string" },
+        "expiresAt": { "type": "string" }
+      }
     }
   }
 }
