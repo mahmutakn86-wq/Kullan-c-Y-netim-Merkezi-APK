@@ -1,0 +1,10 @@
+{
+  "firebase": {
+    "project_id": "PROJE_ID",
+    "database_id": "VERITABANI_ID",
+    "api_key": "API_ANAHTARI"
+  },
+  "security": {
+    "master_secret": "MASTER_SECRET"
+  }
+}

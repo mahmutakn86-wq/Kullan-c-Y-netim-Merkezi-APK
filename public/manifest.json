@@ -1,0 +1,26 @@
+{
+  "id": "/",
+  "name": "AKINCI Cloud Lisans ve Kullanıcı Yönetim Merkezi",
+  "short_name": "AKINCI Cloud",
+  "description": "Surfer Pro Dual & Elevation Galilo Canlı Lisans, Kullanıcı ve Sözleşme Yönetim Portalı",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0d1117",
+  "theme_color": "#10b981",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

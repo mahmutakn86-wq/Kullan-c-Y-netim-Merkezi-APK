@@ -1,0 +1,8 @@
+{
+  "name": "AKINCI Cloud Lisans ve Kullanici Yonetim Merkezi",
+  "description": "Google Cloud tabanli Surfer Pro Dual ve Elevation Galilo icin canli kullanici takibi, anlik aktif/pasif lisans yonetimi ve 5846 sayili FSEK telif sozlesmesi merkezi",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

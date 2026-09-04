@@ -1,0 +1,47 @@
+# Güvenlik dosyaları
+*.enc
+*.bin
+*.key
+*.pem
+*.p12
+service-account.json
+service-account*.json
+.akinci_*
+.akinci_security/
+config.json
+config.enc
+.env
+.env*
+!.env.example
+!config.example.json
+*.lic
+*.agr
+credentials.json
+.user_key
+
+# Node / Web Build
+node_modules/
+dist/
+coverage/
+.DS_Store
+*.log
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.so
+*.egg
+*.egg-info
+build/
+*.exe
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+

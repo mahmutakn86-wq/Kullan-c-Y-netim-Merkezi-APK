@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default Deny-All Catch-All for unknown paths
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Helper functions for data sanitization & validation
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128;
+    }
+
+    function isValidLicense(data) {
+      return data.keys().hasAll(['key', 'customerName', 'status', 'expiresAt']) &&
+             data.key is string && data.key.size() <= 128 &&
+             data.customerName is string && data.customerName.size() <= 256 &&
+             data.status in ['active', 'revoked', 'expired', 'pending_agreement'];
+    }
+
+    function isValidSession(data) {
+      return data.keys().hasAll(['licenseKey', 'hwid', 'lastPingAt']) &&
+             data.licenseKey is string && data.licenseKey.size() <= 128 &&
+             data.hwid is string && data.hwid.size() <= 256;
+    }
+
+    function isValidAgreement(data) {
+      return data.keys().hasAll(['licenseKey', 'signerName', 'signedAt', 'hwid']) &&
+             data.licenseKey is string && data.licenseKey.size() <= 128 &&
+             data.signerName is string && data.signerName.size() <= 256 &&
+             data.hwid is string && data.hwid.size() <= 256;
+    }
+
+    // 1. Licenses Collection (Validated Read & Mutations)
+    match /licenses/{licenseId} {
+      allow read: if true;
+      allow create, update: if isValidId(licenseId) && isValidLicense(request.resource.data);
+      allow delete: if isValidId(licenseId);
+    }
+
+    // 2. Real-time Heartbeat & Client Telemetry Sessions
+    match /sessions/{sessionId} {
+      allow read: if true;
+      allow create, update: if isValidId(sessionId) && isValidSession(request.resource.data);
+      allow delete: if isValidId(sessionId);
+    }
+
+    // 3. 5846 Sayılı FSEK Telif & EULA Sözleşme Kayıtları (Append-Only / Immutable Audit Logs)
+    match /agreements/{agreementId} {
+      allow read: if true;
+      allow create: if isValidId(agreementId) && isValidAgreement(request.resource.data);
+      // Hukuki delil niteliği gereği imzalanan sözleşmeler sonradan değiştirilemez veya silinemez
+      allow update, delete: if false;
+    }
+  }
+}
+

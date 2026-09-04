@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AKINCI Cloud Firestore Schema",
+  "entities": {
+    "licenses": {
+      "title": "License Keys",
+      "description": "Store all issued license keys, HWID bindings, expiration dates, and 5846 FSEK agreement status",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "key": { "type": "string" },
+        "customerName": { "type": "string" },
+        "customerEmail": { "type": "string" },
+        "customerPhone": { "type": "string" },
+        "plan": { "type": "string", "enum": ["trial", "monthly", "quarterly", "annual", "lifetime"] },
+        "createdAt": { "type": "string" },
+        "expiresAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["active", "revoked", "expired", "pending_agreement"] },
+        "maxDevices": { "type": "number" },
+        "boundDevices": { "type": "array" },
+        "agreementAccepted": { "type": "boolean" },
+        "agreementAcceptedAt": { "type": "string" },
+        "agreementSignerName": { "type": "string" },
+        "agreementIp": { "type": "string" },
+        "notes": { "type": "string" },
+        "allowedModules": { "type": "array" },
+        "lastUsedAt": { "type": "string" },
+        "paymentInfo": {
+          "type": "object",
+          "properties": {
+            "totalPrice": { "type": "number" },
+            "currency": { "type": "string" },
+            "paymentType": { "type": "string", "enum": ["cash", "installment"] },
+            "status": { "type": "string", "enum": ["paid", "unpaid", "partial", "overdue"] },
+            "paidAmount": { "type": "number" },
+            "remainingAmount": { "type": "number" },
+            "installmentCount": { "type": "number" },
+            "dayOfMonth": { "type": "number" },
+            "installments": { "type": "array" },
+            "cashPaidAt": { "type": "string" },
+            "notes": { "type": "string" }
+          }
+        }
+      },
+      "required": ["key", "customerName", "status", "expiresAt"]
+    },
+    "sessions": {
+      "title": "Active Client Sessions",
+      "description": "Real-time heartbeat sessions for desktop Surfer & Galilo clients",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "licenseKey": { "type": "string" },
+        "customerName": { "type": "string" },
+        "hwid": { "type": "string" },
+        "deviceName": { "type": "string" },
+        "osVersion": { "type": "string" },
+        "appVersion": { "type": "string" },
+        "ip": { "type": "string" },
+        "location": { "type": "string" },
+        "lastPingAt": { "type": "string" },
+        "status": { "type": "string", "enum": ["online", "idle", "offline"] },
+        "currentModule": { "type": "string" },
+        "activeProjectName": { "type": "string" }
+      },
+      "required": ["licenseKey", "hwid", "lastPingAt"]
+    },
+    "agreements": {
+      "title": "5846 FSEK Agreement Logs",
+      "description": "Digital signature records for copyright compliance",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "licenseKey": { "type": "string" },
+        "customerName": { "type": "string" },
+        "signerName": { "type": "string" },
+        "signerEmail": { "type": "string" },
+        "hwid": { "type": "string" },
+        "deviceName": { "type": "string" },
+        "ip": { "type": "string" },
+        "agreementVersion": { "type": "string" },
+        "signedAt": { "type": "string" },
+        "lawReference": { "type": "string" }
+      },
+      "required": ["licenseKey", "signerName", "signedAt", "hwid"]
+    }
+  }
+}

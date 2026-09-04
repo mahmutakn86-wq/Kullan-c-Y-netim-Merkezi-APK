@@ -1,0 +1,20 @@
+# AKINCI SURFER & LİSANS İSTEMCİSİ - GEREKSİNİMLER (requirements.txt)
+# Temel Kütüphaneler
+pywin32
+requests
+keyring
+python-dotenv
+cryptography>=41.0.0
+watchdog
+Pillow
+simplekml
+pynput
+keyboard
+pyautogui
+wmi
+pyperclip
+
+# Gelişmiş Güvenlik ve Google Firebase/OAuth2 Kimlik Doğrulama
+google-auth>=2.0.0
+google-auth-oauthlib>=1.0.0
+google-cloud-firestore>=2.0.0
